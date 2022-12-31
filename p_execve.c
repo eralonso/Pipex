@@ -12,6 +12,7 @@ int main(int ac, char **av, char **env)
 
 	if (ac < 2)
 		return (1);
+	//cmd = ft_strjoin("/Users/eralonso/Documents/github/pipex_gh/", av[1]);
 	cmd = ft_strjoin("/bin/", av[1]);
 	new_av = ft_calloc(sizeof(char *), ac);
 	if (!new_av)
