@@ -1,5 +1,9 @@
 #include	<unistd.h>
 #include	<stdio.h>
+#include	<sys/types.h>
+#include	<sys/wait.h>
+#include	<errno.h>
+#include	<string.h>
 #include	"inc/pipex.h"
 
 int main(int ac, char **av, char **env)
@@ -7,6 +11,7 @@ int main(int ac, char **av, char **env)
 	char	*cmd;
 	char	**new_av;
 	int		i;
+	int		stat;
 	int		pip[2];
 	pid_t	cpid;
 
@@ -28,13 +33,20 @@ int main(int ac, char **av, char **env)
 	}
 	cpid = fork();
 	if (cpid == 0)
-		printf("return value of execve function == %d", execve(cmd, new_av, env));
+	{
+		execve(cmd, new_av, env);
+		perror("Error");
+		printf("errno: %i\nstrerror: %s\n", errno, strerror(errno));
+		exit(1);
+	}
 	else
 	{
-		printf("a\nb\nc");
+		printf("a\nb\nc\n");
 		free(new_av);
+		free(cmd);
 	}
-	waitpid(cpid, NULL, 0);
+	waitpid(cpid, &stat, 0);
+	printf("Status del hijo: %i\n", stat);
 	return (0);
 }
 // "/Users/eralonso/Documents/github/pipex_gh/"
