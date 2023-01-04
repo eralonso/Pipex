@@ -17,10 +17,11 @@ int main(int ac, char **av, char **env)
 	char	*cmd;
 	char	*pt_cmd;
 
-	cmd_tot = ft_split(av[1], ' ');
-	cmd = cmd_tot[0];
 	if (ac < 2)
 		return (1);
+	printf("ac == %i\n", ac);
+	cmd_tot = ft_split(av[1], ' ');
+	cmd = cmd_tot[0];
 	//cmd = ft_strjoin("/Users/eralonso/Documents/github/pipex_gh/", av[1]);
 	i = -1;
 	while (!ft_strnstr(env[++i], "PATH=", 5))
