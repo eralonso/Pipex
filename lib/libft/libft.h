@@ -18,6 +18,7 @@
 # include	<limits.h>
 
 # define BUFFER_SIZE (int)10
+# define OPEN_MAX (int)100
 
 typedef struct s_list
 {

@@ -20,7 +20,8 @@ int	main(int ac, char **av, char **env)
 		return (ft_error(NUM_ARG));
 	if (!ft_init_pipex(&pix, ac, av, env))
 		return (ft_error(pix.err));
-	open_file(&pix);
+	if (!ft_open_file(&pix))
+		exit(ft_error(ERR_OPEN));
 	pix.pid = fork();
 	if (pix.pid < 0)
 		ft_error(ERR_FORK);
@@ -32,4 +33,39 @@ int	main(int ac, char **av, char **env)
 	return (0);
 }
 
+void	ft_chd_proc(t_pix *pix)
+{
+	if (dup2(pix->fd[1], 1) == -1)
+		exit(ft_error(ERR_DUP));
+}
 
+void	ft_prt_proc(t_pix *pix)
+{
+	if (!ft_open_file(pix, 1))
+		exit(ft_error(ERR_OPEN))
+	if (dup2(pix->outfl, 1) == -1)
+		exit(ft_error(ERR_DUP));
+}
+
+int	ft_open_file(t_pix *pix, int file)
+{
+	if (!file)
+	{
+		if (access(pix->av[1], F_OK | R_OK) == -1)
+			return (0);
+		pix->infl = open(pix->av[1], O_RDONLY)
+		if (pix->infl == -1)	
+			return (0);
+		if (dup2(pix->infl, 0) == -1)
+			return (0);
+	}
+	else if (file == 1)
+	{
+		pix->outfl = open(pix->av[pix->ac - 1], O_WRONLY | O_CREATE | O_TRUNC, 0666)
+		if (pix->outfl == -1)
+			return (0);
+		if (dup2(pix->outfl, 1) == -1)
+			return (0);
+	}
+	return (1);
+}

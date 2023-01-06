@@ -19,10 +19,9 @@ int main(int ac, char **av, char **env)
 
 	if (ac < 2)
 		return (1);
-	printf("ac == %i\n", ac);
+	printf("ac == %i\n\n", ac);
 	cmd_tot = ft_split(av[1], ' ');
 	cmd = cmd_tot[0];
-	//cmd = ft_strjoin("/Users/eralonso/Documents/github/pipex_gh/", av[1]);
 	i = -1;
 	while (!ft_strnstr(env[++i], "PATH=", 5))
 		;
@@ -38,6 +37,11 @@ int main(int ac, char **av, char **env)
 		if (!access(pt_cmd, F_OK))
 			break ;
 	}
+	if (access(pt_cmd, F_OK) == -1)
+	{
+		perror("access");
+		return (1);
+	}
 	i = 0;
 	if (pipe(pip) == -1)
 	{
@@ -47,10 +51,11 @@ int main(int ac, char **av, char **env)
 	cpid = fork();
 	if (cpid == 0)
 	{
-		printf("cmd == %s\n", pt_cmd);
+		printf("cmd == %s\n\n", pt_cmd);
 		i = 0;
 		while (cmd_tot[++i])
 			printf("cmd_tot == %s\n", cmd_tot[i]);
+		printf("\n");
 		execve(pt_cmd, cmd_tot, env);
 		perror("Error");
 		printf("errno: %i\nstrerror: %s\n", errno, strerror(errno));
@@ -58,7 +63,6 @@ int main(int ac, char **av, char **env)
 	}
 	else
 	{
-		printf("a\nb\nc\n");
 		free(cmd);
 	}
 	printf("Retorno del waitpid == %i\n", waitpid(cpid, &stat, 0));

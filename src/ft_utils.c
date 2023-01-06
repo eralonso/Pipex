@@ -22,8 +22,7 @@ int	ft_error(int err)
 		ft_printf(2, "Ha habido un error a la hora de reservar memoria\n");
 	else if (err == ERR_PRT)
 		ft_printf(2, "Ha habido un error a la hora de imprimir por pantalla.\n");
-	else if (err == ERR_OPEN || err == ERR_CLOSE || err == ERR_ACS
-		|| err == ERR_PIPE || err == ERR_FORK || err == ERR_PATH)
+	else	
 		perror("");
 	return (1);
 }

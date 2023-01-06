@@ -32,6 +32,7 @@
 # define ERR_ACS	(int)9
 # define ERR_WAIT	(int)10
 # define ERR_PATH	(int)11
+# define ERR_DUP	(int)12
 
 typedef struct s_pix {
 	int		fd[2];
@@ -52,8 +53,11 @@ typedef struct s_pix {
 int		ft_error(int err);
 int		ft_init_pipex(t_pix *pix, int ac, char **av, char **env);
 char	**ft_found_paths(t_pix *pix);
+int		ft_open_file(t_pix *pix, int file);
 int		ft_close_file(int fd);
 int		ft_check_cmd_paths(t_pix *pix);
 char	*ft_check_cmd(t_pix *pix);
+void	ft_chd_proc(t_pix *pix);
+void	ft_prt_proc(t_pix *pix);
 
 #endif
