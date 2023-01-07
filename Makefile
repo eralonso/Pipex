@@ -6,7 +6,7 @@
 #    By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/29 11:59:39 by eralonso          #+#    #+#              #
-#    Updated: 2023/01/03 15:43:08 by eralonso         ###   ########.fr        #
+#    Updated: 2023/01/07 09:54:12 by eralonso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ B_SRC_DIR	=	bonus/src/
 B_OBJ_DIR	=	bonus/objs/
 
 #<--------------------------------->FILES<---------------------------------->#
-FILES		=	pipex ft_utils
+FILES		=	pipex ft_utils ft_comand
 
 B_FILES		=	pipex_bonus
 

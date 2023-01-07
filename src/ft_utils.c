@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 16:32:57 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/03 19:28:28 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/07 09:50:53 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_error(int err)
 		ft_printf(2, "Ha habido un error a la hora de reservar memoria\n");
 	else if (err == ERR_PRT)
 		ft_printf(2, "Ha habido un error a la hora de imprimir por pantalla.\n");
-	else	
+	else
 		perror("");
 	return (1);
 }
