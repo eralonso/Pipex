@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:58:22 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/07 10:20:43 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/09 13:59:17 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ int		ft_init_pipex(t_pix *pix, int ac, char **av, char **env);
 char	**ft_found_paths(t_pix *pix);
 int		ft_open_file(t_pix *pix, int file);
 int		ft_close_file(int fd);
-int		ft_check_cmd_paths(t_pix *pix);
+int		ft_check_cmd_path(t_pix *pix);
 int		ft_check_cmd(t_pix *pix, int n_cmd);
-char	**ft_clean_cmd(char **cmd_tot);
-int		ft_clean_size(char **cmd_tot);
-int		ft_true_size(char  *args);
+char	*ft_clean_cmd(char *cmd_tot);
+char	*ft_get_cmd(char *cmd_tot);
+int		ft_clean_size(char *cmd_tot);
 void	ft_chd_proc(t_pix *pix);
 void	ft_prt_proc(t_pix *pix);
 
