@@ -6,23 +6,34 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:22:33 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/09 14:00:50 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/09 19:41:31 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include	"pipex.h"
 
 int	ft_check_cmd(t_pix *pix, int n_cmd)
 {
+	int	i;
+
 	pix->cmd = ft_get_cmd(pix->av[n_cmd]);
 	if (!pix->cmd)
 		return (0);
-	pix->cmd_args = (char **)ft_calloc(sizeof(char *), 3);
+	i = 0;
+	while (pix->av[n_cmd][i] && pix->av[n_cmd][i] == ' ')
+		i++;
+	i += ft_strlen(pix->cmd);
+	while (pix->av[n_cmd][i] && pix->av[n_cmd][i] == ' ')
+		i++;
+	pix->av[n_cmd] += i;
+	pix->cmd_args = (char **)ft_calloc(sizeof(char *), 2 + (pix->av[n_cmd][0]));
 	if (!pix->cmd_args)
 		return (0);
-	pix->av[n_cmd] += ft_strlen(pix->cmd) + 1;
-	pix->cmd_args[1] = ft_clean_cmd(pix->av[n_cmd]);
-	if (!pix->cmd_args[1])
+	if (pix->av[n_cmd][0])
+	{
+		pix->cmd_args[1] = ft_clean_cmd(pix->av[n_cmd]);
+		if (!pix->cmd_args[1])
 		return (0);
+	}
 	return (1);
 }
 
@@ -53,6 +64,8 @@ char	*ft_get_cmd(char *cmd_tot)
 	int		i;
 
 	i = 0;
+	while (cmd_tot[i] == ' ')
+		i++;
 	while (cmd_tot[i] && cmd_tot[i] != ' ')
 		i++;
 	cmd = (char *)ft_calloc(sizeof(char), i + 1);
