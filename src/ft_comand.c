@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:22:33 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/09 19:41:31 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/10 17:24:28 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include	"pipex.h"
@@ -30,9 +30,13 @@ int	ft_check_cmd(t_pix *pix, int n_cmd)
 		return (0);
 	if (pix->av[n_cmd][0])
 	{
-		pix->cmd_args[1] = ft_clean_cmd(pix->av[n_cmd]);
-		if (!pix->cmd_args[1])
-		return (0);
+		//pix->cmd_args[1] = ft_clean_cmd(pix->av[n_cmd]);
+		//if (!pix->cmd_args[1])
+		//	return (*(int *)ft_free(pix->cmd_args, 2));
+		pix->cmd_args++;
+		pix->cmd_args = ft_split(ft_clean_cmd(pix->av[n_cmd]), '');
+		if (!pix->cmd_args--)
+			return (*(int *)ft_free(pix->cmd_args, 2));
 	}
 	return (1);
 }
@@ -122,5 +126,35 @@ int	ft_clean_size(char *cmd_tot)
 				size++;
 		i += (cmd_tot[i] != '\0');
 	}
+	return (size);
+}
+
+int	ft_final_size(char *str)
+{
+	int	size;
+	int	i;
+
+	i = -1;
+	size = 0;
+	while (str[i])
+	{
+		while (str[i] && str[i] != '\\')
+		{
+			while (str[i] && ft_strchr("\"\'\\\0", str[i]))
+				i++;
+			if (str[i] == '\\')
+				break ;
+			else if (str[i])
+				size++;
+			while (str[i] && ft_strchr("\"\'\\\0", str[i]))
+				i++;
+			//if (!ft_strchr("\"\'\ \0", str[i]))
+			//	size++;
+			//i++;
+		}
+		if (str[i] && str[i + 1] && str[i] == '\\'
+			&& ft_strchr("\"\'\\\0", str[i + 1]))
+				size++;
+		i += (str[i] != '\0');
 	return (size);
 }
