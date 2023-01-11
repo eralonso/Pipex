@@ -1,43 +1,80 @@
-#include	"stdio.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   p_clean_size.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/11 12:14:43 by eralonso          #+#    #+#             */
+/*   Updated: 2023/01/11 13:27:26 by eralonso         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include	<stdio.h>
 #include	"inc/pipex.h"
 
-int	ft_clean_size(char *cmd_tot)
+int	ft_final_size(char *str)
 {
-	int	size;
-	int	i;
+	int		size;
+	int		i;
+	char	del;
 
-	size = 0;
 	i = 0;
-	while (cmd_tot[i])
+	size = 0;
+	while (str[i])
 	{
-		while (cmd_tot[i] && cmd_tot[i] != '\\')
-		{
-			if (!ft_strchr("\"\'\0", cmd_tot[i]))
-				size++;
+		del = ' ';
+		while (str[i] && str[i] == ' ')
 			i++;
-		}
-		if (cmd_tot[i] && cmd_tot[i + 1] && cmd_tot[i] == '\\'
-			&& ft_strchr("\"\'\\\0", cmd_tot[i + 1]))
-				size++;
-		i += (cmd_tot[i] != '\0');
+		if (str[i] && ft_strchr("\'\"\0", str[i]) && (!i
+				|| (i && str[i - 1] != '\\')))
+			del = str[i++];
+		while (str[i] && str[i] == del)
+			i++;
+		if (str[i] && !(ft_strchr("\'\" \0", str[i]) && (!i
+					|| (i && str[i - 1] != '\\'))))
+			size++;
+		while (str[i] && str[i] != del)
+			i++;
+		i += (str[i] != '\0') * (ft_strchr("\'\" \0", str[i]) && (!i
+					|| (i && str[i - 1] != '\\')));
 	}
 	return (size);
 }
 
+		/*if (ft_strchr("\'\"\0", str[i]) && (!i
+					|| (i && str[i - 1] != '\\')))
+			del = str[i++];
+		printf("  del == %c\n", del);
+		while (str[i] && str[i] == del)
+		{
+			if (del == ' ' && ft_strchr("\'\"\0", str[i]) && (!i
+					|| (i && str[i - 1] != '\\')))
+				break ;
+			i++;
+		}
+		if (str[i] && !(ft_strchr("\'\" \0", str[i]) && (!i
+					|| (i && str[i - 1] != '\\'))))
+			size++;
+		while (str[i] && str[i] != del)
+		{
+			if (del == ' ' && ft_strchr("\'\"\0", str[i]) && (!i
+					|| (i && str[i - 1] != '\\')))
+				break ;
+			i++;
+		}
+		i += (str[i] != '\0') * (ft_strchr("\'\"\0", str[i]) && (!i
+					|| (i && str[i - 1] != '\\')));*/
+
 int	main(int ac, char **av)
 {
-	int	i;
-
-	i = 0;
 	if (ac < 2)
 		return (1);
-	printf("av[1] == %s\n", av[1]);
-	while (av[1][i] && av[1][i] != ' ')
-		i++;
-	while (av[1][i] == ' ')
-		i++;
-	printf("av[1][%i] == %s\n", i, &av[1][i]);
-	printf("\n");
-	printf("len == %i\n", ft_clean_size(&av[1][i]));
+	while (ac-- > 1)
+	{
+		printf("\n  av[%i] == %s\n", ac, av[ac]);
+		printf("\n  El string ha contar va ha ser == %s\n", av[ac]);
+		printf("\n  len == %i\n\n", ft_final_size(av[ac]));
+	}
 	return (0);
 }
