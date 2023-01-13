@@ -6,7 +6,7 @@
 #    By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/29 11:59:39 by eralonso          #+#    #+#              #
-#    Updated: 2023/01/07 09:54:12 by eralonso         ###   ########.fr        #
+#    Updated: 2023/01/13 14:28:47 by eralonso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,11 @@ LIBRARY		=	lib/
 LIB			=	lib/lib.a
 
 #<-------------------------------->HEADERS<---------------------------------->#
-HEADER		=	./inc/
+HEADER		=	./includes/
 B_HEADER	=	./bonus/inc/
 
 #<--------------------------------->DIRS<------------------------------------>#
-SRC_DIR		=	src/
+SRC_DIR		=	sources/
 OBJ_DIR		=	objs/
 
 B_SRC_DIR	=	bonus/src/

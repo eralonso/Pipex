@@ -13,6 +13,7 @@ int	main(int ac, char **av)
 	if (ac < 3)
 	{
 		open("prueba.txt", O_RDWR);
+		perror(NULL);
 		perror("");
 		printf("errno: %i\nstrerror: %s\n", errno, strerror(errno));
 		return (1);
@@ -20,6 +21,7 @@ int	main(int ac, char **av)
 	str = malloc(sizeof(char) * 100);
 	if (!str)
 	{
+		perror(NULL);
 		perror("Ha fallado la reserva de memoria");
 		printf("errno: %i\nstrerror: %s\n", errno, strerror(errno));
 		return (1);

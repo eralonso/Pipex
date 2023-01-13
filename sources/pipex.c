@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:39:36 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/13 14:24:33 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/13 17:29:01 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include	"pipex.h"
@@ -20,8 +20,9 @@ int	main(int ac, char **av, char **env)
 		return (ft_error(ERR_ARG, 1));
 	if (!ft_init_pipex(&pix, ac, av, env))
 		return (ft_error(ERR_MC, 1));
-	if (!ft_open_file(&pix, 0))
-		exit(ft_error(ERR_PERR, ft_clean_pix(&pix, 1)));
+	pix.err = ft_open_file(&pix, 0);
+	if (pix.err >= 0)
+		exit(ft_error(ERR_PERR, ft_clean_pix(&pix, pix.err)));
 	pix.pid = fork();
 	if (pix.pid < 0)
 		exit(ft_error(ERR_PERR, ft_clean_pix(&pix, 1)));
@@ -48,6 +49,8 @@ void	ft_chd_proc(t_pix *pix)
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
 	if (dup2(pix->fd[1], 1) == -1)
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
+	if (close(pix->fd[1]) == -1)
+		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
 	execve(pix->cmd_args[0], pix->cmd_args, pix->env);
 	exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
 }
@@ -73,8 +76,9 @@ void	ft_prt_proc(t_pix *pix)
 	pix->err = ft_open_file(pix, 1);
 	if (pix->err >= 0)
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, pix->err)));
+	if (close(pix->fd[0]) == -1)
+		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
 	execve(pix->cmd_args[0], pix->cmd_args, pix->env);
-	ft_error(ERR_PERR, 1);
 	exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
 }
 
