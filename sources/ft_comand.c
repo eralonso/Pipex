@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:22:33 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/12 19:54:57 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/13 13:07:14 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,30 @@
 
 void	ft_check_cmd_path(t_pix *pix)
 {
-	char	*cmd;
 	char	*cmd_path;
 	int		i;
 
 	i = -1;
-	cmd = pix->cmd_args[0];
-	if (!access(cmd, F_OK))
+	if (!access(pix->cmd_args[0], F_OK) && access(pix->cmd_args[0], X_OK))
+		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 126)));
+	if (!access(pix->cmd_args[0], F_OK) && !access(pix->cmd_args[0], X_OK))
 		return ;
 	while (pix->paths[++i])
 	{
-		cmd_path = ft_strjoin(pix->paths[i], cmd);
+		cmd_path = ft_strjoin(pix->paths[i], pix->cmd_args[0]);
+		if (!cmd_path)
+			exit(ft_error(ERR_MC, ft_clean_pix(pix, 1)));
 		if (!access(cmd_path, F_OK))
 		{
-			if (access(cmd_path, X_OK))
-				exit(ft_error(100, ft_clean_pix(pix, 126)));
-			ft_free(&cmd, 2);
+			ft_free(pix->cmd_args, 2);
 			pix->cmd_args[0] = cmd_path;
+			if (access(cmd_path, X_OK))
+				exit(ft_error(ERR_PERR, ft_clean_pix(pix, 126)));
 			return ;
 		}
 		ft_free(&cmd_path, 2);
 	}
-	exit(ft_error(100, ft_clean_pix(pix, 127)));
+	exit(ft_error(ERR_CNF, ft_clean_pix(pix, 127)));
 }
 
 int	ft_clean_args(char *cmd_tot, t_pix *pix)
@@ -74,7 +76,8 @@ int	ft_fill_arg(char *cmd_tot, char del, char **cmd_args, int pos)
 
 	size = 0;
 	i = -1;
-	size = ft_count_delimiter(cmd_tot, del, 0);
+	while (cmd_tot[size] && cmd_tot[size] != del)
+		size++;
 	arg = (char *)ft_calloc(sizeof(char), size + 1);
 	if (!arg)
 		return (0);

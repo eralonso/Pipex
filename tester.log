@@ -1,0 +1,25 @@
+============================================================================
+
+
+      BASIC TEST
+      NUMBER 1
+      < input grep Hello | wc -l > output
+
+
+ - Bash output file:
+       1
+\EOF
+
+ - Pipex output file: None
+
+ - Bash standard stream: None
+
+ - Pipex standard stream:
+pipexMedic: execve failed: No such file or directory
+\EOF
+
+ - Bash exit code value: 0
+
+ - Pipex exit code value: 1
+
+

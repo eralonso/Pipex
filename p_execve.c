@@ -20,28 +20,6 @@ int main(int ac, char **av, char **env)
 	if (ac < 2)
 		return (1);
 	printf("ac == %i\n\n", ac);
-	cmd_tot = ft_split(av[1], ' ');
-	cmd = cmd_tot[0];
-	i = -1;
-	while (!ft_strnstr(env[++i], "PATH=", 5))
-		;
-	env[i] += 5;
-	paths = ft_split(env[i], ':');
-	i = -1;
-	while (paths[++i])
-		paths[i] = ft_strjoin(paths[i], "/\0");
-	i = -1;
-	while (paths[++i])
-	{
-		pt_cmd = ft_strjoin(paths[i], cmd);
-		if (!access(pt_cmd, F_OK))
-			break ;
-	}
-	if (access(pt_cmd, F_OK) == -1)
-	{
-		perror("access");
-		return (1);
-	}
 	i = 0;
 	if (pipe(pip) == -1)
 	{
@@ -51,6 +29,28 @@ int main(int ac, char **av, char **env)
 	cpid = fork();
 	if (cpid == 0)
 	{
+		cmd_tot = ft_split(av[1], ' ');
+		cmd = cmd_tot[0];
+		i = -1;
+		while (!ft_strnstr(env[++i], "PATH=", 5))
+			;
+		env[i] += 5;
+		paths = ft_split(env[i], ':');
+		i = -1;
+		while (paths[++i])
+			paths[i] = ft_strjoin(paths[i], "/\0");
+		i = -1;
+		while (paths[++i])
+		{
+			pt_cmd = ft_strjoin(paths[i], cmd);
+			if (!access(pt_cmd, F_OK))
+				break ;
+		}
+		if (access(pt_cmd, F_OK) == -1)
+		{
+			perror("access");
+			exit (127);
+		}
 		printf("cmd == %s\n\n", pt_cmd);
 		i = 0;
 		while (cmd_tot[++i])
@@ -63,10 +63,11 @@ int main(int ac, char **av, char **env)
 	}
 	else
 	{
-		free(cmd);
+		printf("Retorno del waitpid == %i\n", waitpid(cpid, &stat, 0));
+		printf("Status del hijo: %i\n", stat);
+		printf("WIFEXITED == %i\n", WIFEXITED(stat));
+		printf("WEXITSTATUS == %i\n", WEXITSTATUS(stat));
 	}
-	printf("Retorno del waitpid == %i\n", waitpid(cpid, &stat, 0));
-	printf("Status del hijo: %i\n", stat);
 
 	return (0);
 }
