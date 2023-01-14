@@ -4,7 +4,7 @@
 #include	<sys/wait.h>
 #include	<errno.h>
 #include	<string.h>
-#include	"inc/pipex.h"
+#include	"includes/pipex.h"
 
 int main(int ac, char **av, char **env)
 {

@@ -26,20 +26,26 @@ int	main(int ac, char **av, char **env)
 	if (pix.pid < 0)
 		exit(ft_error(ERR_PERR, ft_clean_pix(&pix, 1)));
 	else if (!pix.pid)
-		ft_chd_proc(&pix);
-	ft_prt_proc(&pix);
-	if (waitpid(pix.pid, &pix.c_stat, 0) == -1)
+		ft_chd_proc(&pix, 2);
+	ft_prt_proc(&pix, 3);
+	if (wait(&pix.c_stat) == -1)
 		exit(ft_error(ERR_PERR, ft_clean_pix(&pix, 1)));
 	if (pix.c_stat)
 		exit(ft_error(0, ft_clean_pix(&pix, WEXITSTATUS(pix.c_stat))));
 	return (0);
 }
+	//if (wait(&pix->c_stat) == -1)
+	//	exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
+	//if (pix->c_stat)
+	//	exit(ft_error(0, ft_clean_pix(pix, WEXITSTATUS(pix->c_stat))));
 
-void	ft_chd_proc(t_pix *pix)
+void	ft_chd_proc(t_pix *pix, int n_cmd)
 {
 	if (close(pix->fd[0]))
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
-	if (!ft_clean_args(pix->av[2], pix))
+	if (!pix->av[n_cmd] || !*pix->av[n_cmd])
+		exit(ft_error(ERR_PERM, ft_clean_pix(pix, 126)));
+	if (!ft_clean_args(pix->av[n_cmd], pix))
 		exit(ft_error(ERR_MC, ft_clean_pix(pix, 1)));
 	ft_check_cmd_path(pix);
 	if (dup2(pix->infl, 0) == -1)
@@ -61,11 +67,13 @@ void	ft_chd_proc(t_pix *pix)
 	//while (pix->env[++i])
 	//	dprintf(2, "pix->env[%i] == %s\n", i, pix->env[i]);
 
-void	ft_prt_proc(t_pix *pix)
+void	ft_prt_proc(t_pix *pix, int n_cmd)
 {
 	if (close(pix->fd[1]))
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
-	if (!ft_clean_args(pix->av[3], pix))
+	if (!pix->av[n_cmd] || !*pix->av[n_cmd])
+		exit(ft_error(ERR_PERM, ft_clean_pix(pix, 126)));
+	if (!ft_clean_args(pix->av[n_cmd], pix))
 		exit(ft_error(ERR_MC, ft_clean_pix(pix, 1)));
 	ft_check_cmd_path(pix);
 	if (dup2(pix->fd[0], 0) == -1)

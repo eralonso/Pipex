@@ -24,6 +24,7 @@
 # define ERR_ARG	(int)1
 # define ERR_MC		(int)2
 # define ERR_CNF	(int)3
+# define ERR_PERM	(int)4
 # define ERR_PERR	(int)10
 
 typedef struct s_pix {
@@ -50,8 +51,8 @@ int		ft_clean_args(char *cmd_tot, t_pix *pix);
 int		ft_count_delimiter(char *str, char del, int mode);
 int		ft_arg_num(char *cmd_tot);
 int		ft_fill_arg(char *cmd_tot, char del, char **cmd_args, int pos);
-void	ft_chd_proc(t_pix *pix);
-void	ft_prt_proc(t_pix *pix);
+void	ft_chd_proc(t_pix *pix, int n_cmd);
+void	ft_prt_proc(t_pix *pix, int n_cmd);
 int		ft_clean_pix(t_pix *pix, int err);
 int		ft_isscaped(char *str, int i);
 

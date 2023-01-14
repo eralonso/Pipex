@@ -17,11 +17,13 @@ int	ft_error(int err, int ext)
 	if (err > 0)
 		ft_printf(2, "ERROR: ");
 	if (err == ERR_ARG)
-		ft_printf(2, "Invalid number of arguments\n");
+		ft_printf(2, "Invalid number of arguments:\n");
 	else if (err == ERR_MC)
-		ft_printf(2, "error trying to allocate memory\n");
-	if (err == ERR_CNF)
-		ft_printf(2, "command not found.\n");
+		ft_printf(2, "error trying to allocate memory:\n");
+	else if (err == ERR_CNF)
+		ft_printf(2, "command not found:\n");
+	else if (err == ERR_PERM)
+		ft_printf(2, "permission denied:\n");
 	else if (err == ERR_PERR)
 		perror("");
 	return (ext);
