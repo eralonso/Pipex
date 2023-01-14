@@ -53,5 +53,6 @@ int		ft_fill_arg(char *cmd_tot, char del, char **cmd_args, int pos);
 void	ft_chd_proc(t_pix *pix);
 void	ft_prt_proc(t_pix *pix);
 int		ft_clean_pix(t_pix *pix, int err);
+int		ft_isscaped(char *str, int i);
 
 #endif

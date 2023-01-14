@@ -29,18 +29,15 @@ int	ft_error(int err, int ext)
 
 int	ft_init_pipex(t_pix *pix, int ac, char **av, char **env)
 {
-	if (pipe(pix->fd) == -1)
-		return (0);
 	pix->ac = ac;
 	pix->av = av;
 	pix->env = env;
 	pix->err = 0;
 	pix->paths = ft_found_paths(pix);
 	if (!pix->paths)
-	{
-		ft_close_pipes(pix->fd[0], pix->fd[1]);
 		return (0);
-	}
+	if (pipe(pix->fd) == -1)
+		return (*(int *)ft_free(pix->paths, 1));
 	return (1);
 }
 
@@ -70,18 +67,21 @@ char	**ft_found_paths(t_pix *pix)
 	return (paths);
 }
 
-int	ft_close_pipes(int fd1, int fd2)
-{
-	if (close(fd1))
-		return (1);
-	if (close(fd2))
-		return (1);
-	return (1);
-}
-
 int	ft_clean_pix(t_pix *pix, int err)
 {
 	ft_free(pix->paths, 1);
 	ft_free(pix->cmd_args, 1);
 	return (err);
+}
+
+int	ft_isscaped(char *str, int i)
+{
+	int	n;
+
+	if (!i)
+		return (0);
+	n = 0;
+	while (--i >= 0 && str[i] == '\\')
+		n++;
+	return (n % 2);
 }

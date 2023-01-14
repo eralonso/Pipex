@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include	"pipex.h"
-#include	<stdio.h>
 
 int	main(int ac, char **av, char **env)
 {
@@ -38,18 +37,18 @@ int	main(int ac, char **av, char **env)
 
 void	ft_chd_proc(t_pix *pix)
 {
-	close(pix->fd[0]);
-	pix->paths = ft_found_paths(pix);
-	if (!pix->paths)
+	if (close(pix->fd[0]))
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
 	if (!ft_clean_args(pix->av[2], pix))
-		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
+		exit(ft_error(ERR_MC, ft_clean_pix(pix, 1)));
 	ft_check_cmd_path(pix);
 	if (dup2(pix->infl, 0) == -1)
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
 	if (dup2(pix->fd[1], 1) == -1)
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
 	if (close(pix->fd[1]) == -1)
+		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
+	if (close(pix->infl) == -1)
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
 	execve(pix->cmd_args[0], pix->cmd_args, pix->env);
 	exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
@@ -64,12 +63,10 @@ void	ft_chd_proc(t_pix *pix)
 
 void	ft_prt_proc(t_pix *pix)
 {
-	close(pix->fd[1]);
-	pix->paths = ft_found_paths(pix);
-	if (!pix->paths)
+	if (close(pix->fd[1]))
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
 	if (!ft_clean_args(pix->av[3], pix))
-		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
+		exit(ft_error(ERR_MC, ft_clean_pix(pix, 1)));
 	ft_check_cmd_path(pix);
 	if (dup2(pix->fd[0], 0) == -1)
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
@@ -77,6 +74,8 @@ void	ft_prt_proc(t_pix *pix)
 	if (pix->err >= 0)
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, pix->err)));
 	if (close(pix->fd[0]) == -1)
+		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
+	if (close(pix->outfl) == -1)
 		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
 	execve(pix->cmd_args[0], pix->cmd_args, pix->env);
 	exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
