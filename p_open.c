@@ -9,8 +9,12 @@ int	main(int ac, char **av)
 		printf("Too few arguments.\n");
 		return (1);
 	}
-	printf("open == %i\n", open(av[1], O_CREAT | O_WRONLY));
-	printf("open == %i\n", open(av[2], O_CREAT | O_WRONLY | O_TRUNC));
-	printf("open == %i\n", open(av[3], O_CREAT | O_WRONLY | O_TRUNC, 0666));
+	//printf("open == %i\n", open(av[1], O_CREAT | O_WRONLY));
+	//printf("open == %i\n", open(av[2], O_CREAT | O_WRONLY | O_TRUNC));
+	//printf("open == %i\n", open(av[3], O_CREAT | O_WRONLY | O_TRUNC, 0666));
+	printf("open == %i\n", open(av[3], O_RDONLY));
+	printf("open == %i\n", open(av[3], O_RDONLY));
+	printf("open == %i\n", open(av[3], O_RDONLY));
+	printf("open == %i\n", open(av[3], O_RDONLY));
 	return (0);
 }

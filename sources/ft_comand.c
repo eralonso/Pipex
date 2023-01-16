@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:22:33 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/13 20:03:50 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/16 18:58:53 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,26 +18,26 @@ void	ft_check_cmd_path(t_pix *pix)
 	int		i;
 
 	i = -1;
-	if (!access(pix->cmd_args[0], F_OK) && access(pix->cmd_args[0], X_OK))
-		exit(ft_error(ERR_PERR, ft_clean_pix(pix, 126)));
-	if (!access(pix->cmd_args[0], F_OK) && !access(pix->cmd_args[0], X_OK))
-		return ;
 	while (pix->paths[++i])
 	{
-		cmd_path = ft_strjoin(pix->paths[i], pix->cmd_args[0]);
+		cmd_path = ft_strjoin(pix->paths[i], pix->cmd);
 		if (!cmd_path)
-			exit(ft_error(ERR_MC, ft_clean_pix(pix, 1)));
+			exit(ft_clean_pix(pix, ft_error(ERR_MC, 1, NULL)));
 		if (!access(cmd_path, F_OK))
 		{
-			ft_free(pix->cmd_args, 2);
-			pix->cmd_args[0] = cmd_path;
+			ft_free(&pix->cmd, 2);
+			pix->cmd = cmd_path;
 			if (access(cmd_path, X_OK))
-				exit(ft_error(ERR_PERR, ft_clean_pix(pix, 126)));
+				exit(ft_clean_pix(pix, ft_error(ERR_PERR, 126, NULL)));
 			return ;
 		}
 		ft_free(&cmd_path, 2);
 	}
-	exit(ft_error(ERR_CNF, ft_clean_pix(pix, 127)));
+	if (!access(pix->cmd, F_OK) && access(pix->cmd, X_OK))
+		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 126, NULL)));
+	if (!access(pix->cmd, F_OK) && !access(pix->cmd, X_OK))
+		return ;
+	exit(ft_clean_pix(pix, ft_error(ERR_CNF, 127, pix->cmd_args[0])));
 }
 
 int	ft_clean_args(char *cmd_tot, t_pix *pix)
@@ -62,6 +62,9 @@ int	ft_clean_args(char *cmd_tot, t_pix *pix)
 			return (*(int *)ft_free(pix->cmd_args, 1));
 		i += ft_count_delimiter(&cmd_tot[i], del, 0);
 	}
+	pix->cmd = ft_strdup(pix->cmd_args[0]);
+	if (!pix->cmd)
+		return (*(int *)(ft_free(pix->cmd_args, 1)));
 	return (1);
 }
 
@@ -74,8 +77,7 @@ int	ft_fill_arg(char *cmd_tot, char del, char **cmd_args, int pos)
 	size = 0;
 	i = -1;
 	while (cmd_tot[++i] && (cmd_tot[i] != del || ft_isscaped(cmd_tot, i)))
-		if (cmd_tot[i] != '\\' || (cmd_tot[i + 1] != del
-				&& ft_isscaped(cmd_tot, i + 1)))
+		if (cmd_tot[i] != '\\' || ft_isscaped(cmd_tot, i))
 			size++;
 	arg = (char *)ft_calloc(sizeof(char), size + 1);
 	if (!arg)
@@ -83,8 +85,7 @@ int	ft_fill_arg(char *cmd_tot, char del, char **cmd_args, int pos)
 	size = 0;
 	i = -1;
 	while (cmd_tot[++i] && (cmd_tot[i] != del || ft_isscaped(cmd_tot, i)))
-		if (cmd_tot[i] != '\\' || (cmd_tot[i + 1] != del
-				&& ft_isscaped(cmd_tot, i + 1)))
+		if (cmd_tot[i] != '\\' || ft_isscaped(cmd_tot, i))
 			arg[size++] = cmd_tot[i];
 	cmd_args[pos] = arg;
 	return (1);

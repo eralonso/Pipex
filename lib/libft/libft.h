@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 18:50:15 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/07 08:57:21 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/16 10:04:10 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include	<limits.h>
 
 # define BUFFER_SIZE (int)10
-# define OPEN_MAX (int)1024
 
 typedef struct s_list
 {

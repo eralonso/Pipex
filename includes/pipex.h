@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:58:22 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/13 12:53:49 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/16 16:11:00 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@
 # include	<fcntl.h>
 
 # define PATH		(char *)"PATH="
+# define DEF_PATH	(char *)"/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # define ERR_ARG	(int)1
 # define ERR_MC		(int)2
 # define ERR_CNF	(int)3
 # define ERR_PERM	(int)4
+# define ERR_NFD	(int)5
 # define ERR_PERR	(int)10
 
 typedef struct s_pix {
@@ -36,12 +38,13 @@ typedef struct s_pix {
 	char	**av;
 	char	**env;
 	char	**paths;
+	char	*cmd;
 	char	**cmd_args;
 	int		c_stat;
 	int		err;
 }			t_pix;
 
-int		ft_error(int err, int ext);
+int		ft_error(int err, int ext, char *cmd);
 int		ft_init_pipex(t_pix *pix, int ac, char **av, char **env);
 char	**ft_found_paths(t_pix *pix);
 int		ft_open_file(t_pix *pix, int file);

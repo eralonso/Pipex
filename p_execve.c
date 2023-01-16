@@ -10,26 +10,26 @@ int main(int ac, char **av, char **env)
 {
 	int		i;
 	int		stat;
-	int		pip[2];
+	//int		pip[2];
 	pid_t	cpid;
-	char	**paths;
+	//char	**paths;
 	char	**cmd_tot;
-	char	*cmd;
-	char	*pt_cmd;
+	//char	*cmd;
+	//char	*pt_cmd;
 
 	if (ac < 2)
 		return (1);
 	printf("ac == %i\n\n", ac);
 	i = 0;
-	if (pipe(pip) == -1)
-	{
-		dprintf(2, "ERROR");
-		return (1);
-	}
+	//if (pipe(pip) == -1)
+	//{
+	//	dprintf(2, "ERROR");
+	//	return (1);
+	//}
 	cpid = fork();
 	if (cpid == 0)
 	{
-		cmd_tot = ft_split(av[1], ' ');
+		/*cmd_tot = ft_split(av[1], ' ');
 		cmd = cmd_tot[0];
 		i = -1;
 		while (!ft_strnstr(env[++i], "PATH=", 5))
@@ -55,8 +55,12 @@ int main(int ac, char **av, char **env)
 		i = 0;
 		while (cmd_tot[++i])
 			printf("cmd_tot == %s\n", cmd_tot[i]);
-		printf("\n");
-		execve(pt_cmd, cmd_tot, env);
+		printf("\n");*/
+		cmd_tot = ft_split(av[1], 'z');
+		char *tmp = cmd_tot[0];
+		cmd_tot[0] = "awk";
+		execve(tmp, cmd_tot, env);
+		printf("Llego aquí\n");
 		perror("Error");
 		printf("errno: %i\nstrerror: %s\n", errno, strerror(errno));
 		exit(1);
