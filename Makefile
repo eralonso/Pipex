@@ -6,7 +6,7 @@
 #    By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/29 11:59:39 by eralonso          #+#    #+#              #
-#    Updated: 2023/01/13 14:28:47 by eralonso         ###   ########.fr        #
+#    Updated: 2023/01/17 11:38:26 by eralonso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,16 +89,16 @@ ${NAME}			::	${OBJS}
 ${NAME}			::
 	@echo "${YELLOW}Nothing to be done for 'pipex'${DEF_COLOR}"
 
-bonus			:
-	@$(MAKE) -C ${LIBRARY}
-	@$(MAKE) ${CHECKER}
+#bonus			:
+#	@$(MAKE) -C ${LIBRARY}
+#	@$(MAKE) ${BONUS}
 
-${BONUS}		::	${B_OBJS}
-	@${CC} ${CFLAGS} ${B_OBJS} ${LIB} -o $@
-	@echo "\n${GREEN}Pipex bonus has been compiled${DEF_COLOR}"
+#${BONUS}		::	${B_OBJS}
+#	@${CC} ${CFLAGS} ${B_OBJS} ${LIB} -o $@
+#	@echo "\n${GREEN}Pipex bonus has been compiled${DEF_COLOR}"
 
-${BONUS}		::
-	@echo "${YELLOW}Nothing to be done for 'pipex bonus'${DEF_COLOR}"
+#${BONUS}		::
+#	@echo "${YELLOW}Nothing to be done for 'pipex bonus'${DEF_COLOR}"
 
 clean			:
 	@$(MAKE) clean -C ${LIBRARY}

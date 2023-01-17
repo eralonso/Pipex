@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 16:32:57 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/16 16:25:35 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/17 13:31:03 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 int	ft_error(int err, int ext, char *cmd)
 {
 	if (err == ERR_ARG)
-		ft_printf(2, "pipex: Invalid number of arguments:\n");
+		ft_printf(2, "bash: Invalid number of arguments:\n");
 	else if (err == ERR_MC)
-		ft_printf(2, "pipex: error trying to allocate memory:\n");
+		ft_printf(2, "bash: error trying to allocate memory:\n");
 	else if (err == ERR_CNF)
 		ft_printf(2, "pipex: %s: command not found\n", cmd);
 	else if (err == ERR_NFD)
-		ft_printf(2, "pipex: input: No such file or directory\n");
+		ft_printf(2, "pipex: %s: No such file or directory\n");
 	else if (err == ERR_PERM)
-		ft_printf(2, "permission denied:\n");
+		ft_printf(2, "pipex: %s: permission denied:\n");
 	else if (err == ERR_PERR)
-		perror("");
+		perror("bash: ");
 	return (ext);
 }
 
@@ -52,7 +52,7 @@ char	**ft_found_paths(t_pix *pix)
 	int		i;
 
 	i = 0;
-	while (!ft_strnstr(pix->env[i], PATH, ft_strlen(PATH)))
+	while (pix->env[i] && !ft_strnstr(pix->env[i], PATH, ft_strlen(PATH)))
 		i++;
 	if (pix->env[i])
 		paths = ft_split(pix->env[i] + ft_strlen(PATH), ':');

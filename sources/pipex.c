@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:39:36 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/16 19:35:47 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/17 13:07:04 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include	"pipex.h"
@@ -28,10 +28,6 @@ int	main(int ac, char **av, char **env)
 	else if (!pix.pid)
 		ft_chd_proc(&pix, 2);
 	ft_prt_proc(&pix, 3);
-	//if (wait(&pix.c_stat) == -1)
-	//	exit(ft_clean_pix(&pix, ft_error(ERR_PERR, 1, NULL)));
-	//if (pix.c_stat)
-	//	exit(ft_clean_pix(&pix, ft_error(0, WEXITSTATUS(pix.c_stat), NULL)));
 	return (0);
 }
 	//if (wait(&pix->c_stat) == -1)
@@ -43,8 +39,8 @@ void	ft_chd_proc(t_pix *pix, int n_cmd)
 {
 	if (close(pix->fd[0]))
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
-	//if (!pix->av[n_cmd] || !*pix->av[n_cmd])
-	//	exit(ft_clean_pix(pix, ft_error(ERR_PERM, 126, NULL)));
+	if (!pix->av[n_cmd] || !*pix->av[n_cmd])
+		exit(ft_clean_pix(pix, ft_error(ERR_CNF, 127, pix->av[n_cmd])));
 	if (!ft_clean_args(pix->av[n_cmd], pix))
 		exit(ft_clean_pix(pix, ft_error(ERR_MC, 1, NULL)));
 	ft_check_cmd_path(pix);
@@ -56,8 +52,9 @@ void	ft_chd_proc(t_pix *pix, int n_cmd)
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
 	if (close(pix->infl) == -1)
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
-	execve(pix->cmd, pix->cmd_args, pix->env);
-	exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
+	if (!access(pix->av[1], F_OK | R_OK))
+		execve(pix->cmd, pix->cmd_args, pix->env);
+	exit(ft_clean_pix(pix, ft_error(-1, 1, NULL)));
 }
 
 	//int i = -1;
@@ -80,8 +77,8 @@ void	ft_prt_proc(t_pix *pix, int n_cmd)
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
 	if (close(pix->outfl) == -1)
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
-	//if (!pix->av[n_cmd] || !*pix->av[n_cmd])
-	//	exit(ft_clean_pix(pix, ft_error(ERR_PERM, 126, NULL)));
+	if (!pix->av[n_cmd] || !*pix->av[n_cmd])
+		exit(ft_clean_pix(pix, ft_error(ERR_CNF, 127, pix->av[n_cmd])));
 	if (!ft_clean_args(pix->av[n_cmd], pix))
 		exit(ft_clean_pix(pix, ft_error(ERR_MC, 1, NULL)));
 	ft_check_cmd_path(pix);
@@ -94,7 +91,7 @@ int	ft_open_file(t_pix *pix, int file)
 	if (!file)
 	{
 		if (access(pix->av[1], F_OK | R_OK) == -1)
-			return (ft_error(ERR_NFD, -1, NULL));
+			return (ft_error(ERR_NFD, -1, pix->av[1]));
 		pix->infl = open(pix->av[1], O_RDONLY);
 		if (pix->infl == -1)
 			return (1);
