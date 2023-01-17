@@ -6,33 +6,34 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:39:36 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/17 19:34:19 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/17 15:37:25 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include	"pipex_bonus.h"
+#include	"pipex.h"
 
 int	main(int ac, char **av, char **env)
 {
 	t_pix	pix;
 
-	if (ac < 5)
+	if (ac != 5)
 		return (ft_error(ERR_ARG, 1, NULL));
 	if (!ft_init_pipex(&pix, ac, av, env))
-		return (ft_error(ERR_PERR, 1, NULL));
+		return (ft_error(ERR_MC, 1, NULL));
 	pix.err = ft_open_file(&pix, 0);
 	if (pix.err >= 0)
 		exit(ft_clean_pix(&pix, ft_error(ERR_PERR, pix.err, NULL)));
-	while ((argc--) - pix->here_doc - 2)
-	{
-		pix.pid = fork();
-		if (pix.pid < 0)
-			exit(ft_clean_pix(&pix, ft_error(ERR_PERR, 1, NULL)));
-		else if (!pix.pid)
-			ft_chd_proc(&pix, 2);
-	}
+	pix.pid = fork();
+	if (pix.pid < 0)
+		exit(ft_clean_pix(&pix, ft_error(ERR_PERR, 1, NULL)));
+	else if (!pix.pid)
+		ft_chd_proc(&pix, 2);
 	ft_prt_proc(&pix, 3);
 	return (0);
 }
+	//if (wait(&pix->c_stat) == -1)
+	//	exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
+	//if (pix->c_stat)
+	//	exit(ft_error(0, ft_clean_pix(pix, WEXITSTATUS(pix->c_stat))));
 
 void	ft_chd_proc(t_pix *pix, int n_cmd)
 {
@@ -103,27 +104,11 @@ int	ft_open_file(t_pix *pix, int file)
 			&& access(pix->av[pix->ac - 1], W_OK))
 			return (0);
 		pix->outfl = open(pix->av[pix->ac - 1], O_CREAT | O_WRONLY
-				| O_APPEND, 0666);
+				| O_TRUNC, 0666);
 		if (pix->outfl == -1)
 			return (1);
 		if (dup2(pix->outfl, 1) == -1)
 			return (1);
 	}
 	return (-1);
-}
-
-int	ft_ishere_doc(int ac, char **av, t_pix *pix)
-{
-	int		fd_here_doc[2];
-	char	*str;
-
-	if (ac <= 5 || ft_strncmp(av[1], "here_doc\0", ft_strlen(av[1])))
-		return (0);
-	if (pipe(fd_here_doc) == -1)
-		return (ft_error(ERR_PERR, -1, NULL));
-	if (ft_printf(1, "> "))
-		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
-	str = get_next_line(0);
-	while (str && !ft_strncmp())
-	return (fd_here_doc[1]);
 }

@@ -6,14 +6,14 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:58:22 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/17 18:06:02 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/17 15:37:42 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_BONUS_H
-# define PIPEX_BONUS_H
+#ifndef PIPEX_H
+# define PIPEX_H
 
-# include	"../../lib/ft_printf/inc/ft_printf.h"
+# include	"../lib/ft_printf/inc/ft_printf.h"
 # include	<sys/wait.h>
 # include	<sys/types.h>
 # include	<stdio.h>
@@ -34,7 +34,6 @@ typedef struct s_pix {
 	pid_t	pid;
 	int		infl;
 	int		outfl;
-	int		here_doc;
 	int		ac;
 	char	**av;
 	char	**env;

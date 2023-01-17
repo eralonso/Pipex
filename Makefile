@@ -6,7 +6,7 @@
 #    By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/29 11:59:39 by eralonso          #+#    #+#              #
-#    Updated: 2023/01/17 11:38:26 by eralonso         ###   ########.fr        #
+#    Updated: 2023/01/17 18:05:05 by eralonso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,11 +30,11 @@ LIBRARY		=	lib/
 LIB			=	lib/lib.a
 
 #<-------------------------------->HEADERS<---------------------------------->#
-HEADER		=	./includes/
+HEADER		=	./inc/
 B_HEADER	=	./bonus/inc/
 
 #<--------------------------------->DIRS<------------------------------------>#
-SRC_DIR		=	sources/
+SRC_DIR		=	src/
 OBJ_DIR		=	objs/
 
 B_SRC_DIR	=	bonus/src/
@@ -43,7 +43,7 @@ B_OBJ_DIR	=	bonus/objs/
 #<--------------------------------->FILES<---------------------------------->#
 FILES		=	pipex ft_utils ft_comand
 
-B_FILES		=	pipex_bonus
+B_FILES		=	pipex_bonus ft_utils_bonus ft_comand_bonus
 
 #<--------------------------------->SRCS<----------------------------------->#
 SRCS		=	$(addprefix ${SRC_DIR}, $(addsuffix .c, ${FILES}))

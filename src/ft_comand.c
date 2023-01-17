@@ -6,11 +6,11 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/03 19:22:33 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/17 15:50:03 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/17 15:38:05 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"pipex_bonus.h"
+#include	"pipex.h"
 
 void	ft_check_cmd_path(t_pix *pix, int i)
 {
