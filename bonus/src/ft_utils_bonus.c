@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 16:32:57 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/17 19:34:20 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/18 13:24:15 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	ft_error(int err, int ext, char *cmd)
 {
 	if (err == ERR_ARG)
-		ft_printf(2, "bash: Invalid number of arguments:\n");
+		ft_printf(2, "bash: Invalid number of arguments\n");
 	else if (err == ERR_MC)
-		ft_printf(2, "bash: error trying to allocate memory:\n");
+		ft_printf(2, "bash: error trying to allocate memory\n");
 	else if (err == ERR_CNF)
 		ft_printf(2, "pipex: %s: command not found\n", cmd);
 	else if (err == ERR_NFD)
@@ -34,18 +34,23 @@ int	ft_init_pipex(t_pix *pix, int ac, char **av, char **env)
 	pix->ac = ac;
 	pix->av = av;
 	pix->env = env;
-	pix->err = 0;
-	pix->infl = 0;
-	pix->outfl = 0;
 	pix->cmd_args = NULL;
 	pix->cmd = NULL;
+	pix->limiter = ft_strjoin(av[2], "\n\0");
+	if (!pix->limiter)
+		return (0);
 	pix->here_doc = ft_ishere_doc(ac, av, pix);
 	if (pix->here_doc < 0)
-		return (0);
+		return (ft_clean_pix(pix, 0));
+	pix->err = ft_open_file(pix, 0);
+	if (pix->err >= 0)
+		exit(ft_clean_pix(pix, ft_error(ERR_PERR, pix->err, NULL)));
+	pix->infl = 0;
+	if (pix->here_doc)
+		pix->infl = pix->here_doc;
+	pix->outfl = 0;
 	pix->paths = ft_found_paths(pix);
 	if (!pix->paths)
-		return (ft_clean_pix(pix, 0));
-	if (pipe(pix->fd) == -1)
 		return (ft_clean_pix(pix, 0));
 	return (1);
 }
@@ -84,6 +89,7 @@ int	ft_clean_pix(t_pix *pix, int err)
 	ft_free(pix->paths, 1);
 	ft_free(pix->cmd_args, 1);
 	ft_free(&pix->cmd, 2);
+	ft_free(&pix->limiter, 2);
 	if (pix->fd[0])
 		close(pix->fd[0]);
 	if (pix->fd[1])
@@ -92,8 +98,6 @@ int	ft_clean_pix(t_pix *pix, int err)
 		close(pix->infl);
 	if (pix->outfl)
 		close(pix->outfl);
-	if (pix->here_doc > 0)
-		close(pix->here_doc);
 	return (err);
 }
 
