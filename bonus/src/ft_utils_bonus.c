@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 16:32:57 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/18 13:24:15 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/18 16:11:11 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	ft_init_pipex(t_pix *pix, int ac, char **av, char **env)
 	pix->err = ft_open_file(pix, 0);
 	if (pix->err >= 0)
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, pix->err, NULL)));
-	pix->infl = 0;
 	if (pix->here_doc)
 		pix->infl = pix->here_doc;
 	pix->outfl = 0;

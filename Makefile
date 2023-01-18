@@ -6,7 +6,7 @@
 #    By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/29 11:59:39 by eralonso          #+#    #+#              #
-#    Updated: 2023/01/18 13:09:11 by eralonso         ###   ########.fr        #
+#    Updated: 2023/01/18 15:15:46 by eralonso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,9 +89,9 @@ ${NAME}			::	${OBJS}
 ${NAME}			::
 	@echo "${YELLOW}Nothing to be done for 'pipex'${DEF_COLOR}"
 
-#bonus			:
-#	@$(MAKE) -C ${LIBRARY}
-#	@$(MAKE) ${BONUS}
+bonus			:
+	@$(MAKE) -C ${LIBRARY}
+	@$(MAKE) ${BONUS}
 
 ${BONUS}		::	${B_OBJS}
 	@${CC} ${CFLAGS} ${B_OBJS} ${LIB} -o $@
