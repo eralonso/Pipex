@@ -5,12 +5,15 @@
 
 extern int counter;
 
-int main(void) {
+int main(void)
+{
     int fd = open("tmp.txt", O_CREAT | O_WRONLY | O_APPEND);
 
     printf("tmp.txt fd = %d\n", fd);
-    int dup_fd = dup(fd);
-    printf("dup_fd = %d\n", dup_fd);
-    dprintf(dup_fd, "This string will be printed in tmp2.txt file\n");
-    exit(EXIT_SUCCESS);
+    int dup_fd = dup2(fd, 1);
+    dprintf(2, "dup_fd = %d\n", dup_fd);
+    int dup_fd2 = dup2(fd, 1);
+    dprintf(2, "dup_fd2 = %d\n", dup_fd2);
+    printf("This string will be printed in tmp.txt file\n");
+	return (0);
 }

@@ -20,6 +20,7 @@ int	main(int ac, char **av)
 	fd = open(av[3], O_RDONLY);
 	printf("open == %i\n", fd);
 	printf("close == %i\n", close(fd));
+	printf("fd == %i\n", fd);
 	printf("close == %i\n", close(fd));
 	return (0);
 }
