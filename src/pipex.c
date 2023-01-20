@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:39:36 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/18 13:18:36 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/20 10:42:31 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include	"pipex.h"
@@ -22,6 +22,8 @@ int	main(int ac, char **av, char **env)
 	pix.err = ft_open_file(&pix, 0);
 	if (pix.err >= 0)
 		exit(ft_clean_pix(&pix, ft_error(ERR_PERR, pix.err, NULL)));
+	if (pix.err == -1 && close(pix.infl) == -1)
+		return (ft_clean_pix(&pix, ft_error(ERR_PERR, 1, NULL)));
 	pix.pid = fork();
 	if (pix.pid < 0)
 		exit(ft_clean_pix(&pix, ft_error(ERR_PERR, 1, NULL)));
@@ -30,10 +32,6 @@ int	main(int ac, char **av, char **env)
 	ft_prt_proc(&pix, 3);
 	return (0);
 }
-	//if (wait(&pix->c_stat) == -1)
-	//	exit(ft_error(ERR_PERR, ft_clean_pix(pix, 1)));
-	//if (pix->c_stat)
-	//	exit(ft_error(0, ft_clean_pix(pix, WEXITSTATUS(pix->c_stat))));
 
 void	ft_chd_proc(t_pix *pix, int n_cmd)
 {
@@ -44,14 +42,14 @@ void	ft_chd_proc(t_pix *pix, int n_cmd)
 	if (!ft_clean_args(pix->av[n_cmd], pix))
 		exit(ft_clean_pix(pix, ft_error(ERR_MC, 1, NULL)));
 	ft_check_cmd_path(pix, -1);
-	if (dup2(pix->infl, 0) == -1)
-		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
+	//if (dup2(pix->infl, 0) == -1)
+	//	exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
 	if (dup2(pix->fd[1], 1) == -1)
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
 	if (close(pix->fd[1]) == -1)
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
-	if (close(pix->infl) == -1)
-		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
+	//if (close(pix->infl) == -1)
+	//	exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
 	if (pix->err != -2)
 		execve(pix->cmd, pix->cmd_args, pix->env);
 	exit(ft_clean_pix(pix, ft_error(-1, 1, NULL)));
@@ -105,9 +103,7 @@ int	ft_open_file(t_pix *pix, int file)
 			return (0);
 		pix->outfl = open(pix->av[pix->ac - 1], O_CREAT | O_WRONLY
 				| O_TRUNC, 0666);
-		if (pix->outfl == -1)
-			return (1);
-		if (dup2(pix->outfl, 1) == -1)
+		if (pix->outfl == -1 || dup2(pix->outfl, 1) == -1)
 			return (1);
 	}
 	return (-1);

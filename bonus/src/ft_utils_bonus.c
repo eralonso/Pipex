@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 16:32:57 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/19 14:59:14 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/20 10:43:08 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_init_pipex(t_pix *pix, int ac, char **av, char **env)
 		if (dup2(pix->infl, 0) == -1)
 			exit(ft_clean_pix(pix, ft_error(ERR_PERR, pix->err, NULL)));
 	}
-	if (close(pix->infl) == -1)
+	if (pix->err == -1 && close(pix->infl) == -1)
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
 	pix->outfl = 0;
 	pix->paths = ft_found_paths(pix);
