@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 13:39:36 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/20 10:42:31 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/22 09:56:50 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include	"pipex.h"
@@ -42,25 +42,14 @@ void	ft_chd_proc(t_pix *pix, int n_cmd)
 	if (!ft_clean_args(pix->av[n_cmd], pix))
 		exit(ft_clean_pix(pix, ft_error(ERR_MC, 1, NULL)));
 	ft_check_cmd_path(pix, -1);
-	//if (dup2(pix->infl, 0) == -1)
-	//	exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
 	if (dup2(pix->fd[1], 1) == -1)
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
 	if (close(pix->fd[1]) == -1)
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
-	//if (close(pix->infl) == -1)
-	//	exit(ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
 	if (pix->err != -2)
 		execve(pix->cmd, pix->cmd_args, pix->env);
 	exit(ft_clean_pix(pix, ft_error(-1, 1, NULL)));
 }
-
-	//int i = -1;
-	//while (pix->cmd_args[++i])
-	//	dprintf(2, "pix->cmd_args[%i] == %s\n", i, pix->cmd_args[i]);
-	//int i = -1;
-	//while (pix->env[++i])
-	//	dprintf(2, "pix->env[%i] == %s\n", i, pix->env[i]);
 
 void	ft_prt_proc(t_pix *pix, int n_cmd)
 {
@@ -88,19 +77,21 @@ int	ft_open_file(t_pix *pix, int file)
 {
 	if (!file)
 	{
-		if (access(pix->av[1], F_OK | R_OK) == -1)
+		if (access(pix->av[1], F_OK) == -1)
 			return (ft_error(ERR_NFD, -2, pix->av[1]));
+		if (access(pix->av[1], R_OK) == -1)
+			return (ft_error(ERR_PERM, -2, pix->av[1]));
 		pix->infl = open(pix->av[1], O_RDONLY);
 		if (pix->infl == -1)
 			return (1);
 		if (dup2(pix->infl, 0) == -1)
-			return (-1);
+			return (1);
 	}
 	else if (file == 1)
 	{
 		if (!access(pix->av[pix->ac - 1], F_OK)
 			&& access(pix->av[pix->ac - 1], W_OK))
-			return (0);
+			exit(ft_clean_pix(pix, ft_error(ERR_PERM, 0, pix->av[pix->ac - 1])));
 		pix->outfl = open(pix->av[pix->ac - 1], O_CREAT | O_WRONLY
 				| O_TRUNC, 0666);
 		if (pix->outfl == -1 || dup2(pix->outfl, 1) == -1)

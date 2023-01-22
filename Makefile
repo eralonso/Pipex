@@ -6,7 +6,7 @@
 #    By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/29 11:59:39 by eralonso          #+#    #+#              #
-#    Updated: 2023/01/20 10:43:50 by eralonso         ###   ########.fr        #
+#    Updated: 2023/01/20 13:14:55 by eralonso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ CIAN		=	\033[1;96m
 
 #<--------------------------------->NAME<------------------------------------>#
 NAME		=	pipex
-BONUS		=	pipex
 
 #<-------------------------------->LIBRARY<---------------------------------->#
 LIBRARY		=	lib/
@@ -82,23 +81,25 @@ all				:
 	@$(MAKE) -C ${LIBRARY}
 	@$(MAKE) ${NAME}
 
+bonus			:
+	@$(MAKE) BONUS=1 all
+
+ifndef BONUS
+
 ${NAME}			::	${OBJS}
 	@${CC} ${CFLAGS} ${OBJS} ${LIB} -o $@
 	@echo "\n${GREEN}Pipex has been compiled${DEF_COLOR}"
 
-${NAME}			::
-	@echo "${YELLOW}Nothing to be done for 'pipex'${DEF_COLOR}"
+else
 
-bonus			:
-	@$(MAKE) -C ${LIBRARY}
-	@$(MAKE) ${BONUS}
-
-${BONUS}		::	${B_OBJS}
+${NAME}		::	${B_OBJS}
 	@${CC} ${CFLAGS} ${B_OBJS} ${LIB} -o $@
 	@echo "\n${GREEN}Pipex bonus has been compiled${DEF_COLOR}"
 
-${BONUS}		::
-	@echo "${YELLOW}Nothing to be done for 'pipex bonus'${DEF_COLOR}"
+endif
+
+${NAME}			::
+	@echo "${YELLOW}Nothing to be done for 'pipex'${DEF_COLOR}"
 
 clean			:
 	@$(MAKE) clean -C ${LIBRARY}

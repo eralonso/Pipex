@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 16:32:57 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/17 13:31:03 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/22 09:57:14 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 int	ft_error(int err, int ext, char *cmd)
 {
 	if (err == ERR_ARG)
-		ft_printf(2, "bash: Invalid number of arguments:\n");
+		ft_printf(2, "bash: Invalid number of arguments\n");
 	else if (err == ERR_MC)
-		ft_printf(2, "bash: error trying to allocate memory:\n");
+		ft_printf(2, "bash: error trying to allocate memory\n");
 	else if (err == ERR_CNF)
 		ft_printf(2, "pipex: %s: command not found\n", cmd);
 	else if (err == ERR_NFD)
 		ft_printf(2, "pipex: %s: No such file or directory\n");
 	else if (err == ERR_PERM)
-		ft_printf(2, "pipex: %s: permission denied:\n");
+		ft_printf(2, "pipex: %s: permission denied\n");
 	else if (err == ERR_PERR)
 		perror("bash: ");
 	return (ext);

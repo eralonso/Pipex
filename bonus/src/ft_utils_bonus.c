@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 16:32:57 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/20 10:43:08 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/21 10:35:31 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ int	ft_init_pipex(t_pix *pix, int ac, char **av, char **env)
 	pix->limiter = ft_strjoin(av[2], "\n\0");
 	if (!pix->limiter)
 		return (0);
-	pix->here_doc = ft_ishere_doc(ac, av, pix);
+	pix->hdoc = ft_ishere_doc(ac, av, pix);
 	pix->err = ft_open_file(pix, 0);
 	if (pix->err >= 0)
 		exit(ft_clean_pix(pix, ft_error(ERR_PERR, pix->err, NULL)));
-	if (pix->here_doc)
+	if (pix->hdoc)
 	{
-		pix->infl = pix->here_doc;
+		pix->infl = pix->hdoc;
 		if (dup2(pix->infl, 0) == -1)
 			exit(ft_clean_pix(pix, ft_error(ERR_PERR, pix->err, NULL)));
 	}
