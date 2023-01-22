@@ -6,7 +6,7 @@
 #    By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/29 11:59:39 by eralonso          #+#    #+#              #
-#    Updated: 2023/01/20 13:14:55 by eralonso         ###   ########.fr        #
+#    Updated: 2023/01/22 11:11:39 by eralonso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,12 +69,12 @@ CFLAGS		=	-Wall -Wextra -Werror
 #<--------------------------------->RULES<----------------------------------->#
 ${OBJ_DIR}%.o	:	%.c ${DEPS_SRCS} ${MK}
 	@${MKD} $(dir $@)
-	@printf "${PINK}\rCompiling: ${YELLOW}$<...					${DEF_COLOR}\r"
+	@printf "${PINK}\rCompiling: ${YELLOW}$(notdir $<)...			${DEF_COLOR}\r"
 	@${CC} -MT $@ ${CFLAGS} -MMD -MP ${INCLUDE} -c $< -o $@
 
 ${B_OBJ_DIR}%.o	:	%.c ${DEPS_SRCS} ${MK}
 	@${MKD} $(dir $@)
-	@printf "${PINK}\rCompiling: ${YELLOW}$<...					${DEF_COLOR}\r"
+	@printf "${PINK}\rCompiling: ${YELLOW}$(notdir $<)...			${DEF_COLOR}\r"
 	@${CC} -MT $@ ${CFLAGS} -MMD -MP ${B_INCLUDE} -c $< -o $@
 
 all				:

@@ -6,7 +6,7 @@
 #    By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/01 14:33:49 by eralonso          #+#    #+#              #
-#    Updated: 2022/12/21 18:44:55 by eralonso         ###   ########.fr        #
+#    Updated: 2023/01/22 11:12:20 by eralonso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 #-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/COLORS/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-#
@@ -66,7 +66,7 @@ B_INCLUDE	= -I${B_HEADER}
 #-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/RULES/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-/-#
 $(OBJS_DIR)%.o	:	%.c ${DEPS_SRCS} ${MK}
 	@${MKD} $(dir $@)
-	@printf "${PINK}\rCompiling: ${YELLOW}$<...${DEF_COLOR}							\r"
+	@printf "${PINK}\rCompiling: ${YELLOW}$(notdir $<)...${DEF_COLOR}		\r"
 	@${CC} -MT $@ ${CFLAGS} -MMD -MP ${INCLUDE} -c $< -o $@
 
 all				:
