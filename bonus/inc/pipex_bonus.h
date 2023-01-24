@@ -6,14 +6,14 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:58:22 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/21 10:36:52 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/22 18:30:51 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_BONUS_H
 # define PIPEX_BONUS_H
 
-# include	"../../lib/ft_printf/inc/ft_printf.h"
+# include	"ft_printf.h"
 # include	<sys/wait.h>
 # include	<sys/types.h>
 # include	<stdio.h>

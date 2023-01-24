@@ -6,7 +6,7 @@
 #    By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/18 12:39:13 by eralonso          #+#    #+#              #
-#    Updated: 2022/12/07 18:00:19 by eralonso         ###   ########.fr        #
+#    Updated: 2023/01/24 12:55:05 by eralonso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,4 +89,3 @@ re			:
 .PHONY: all bonus clean fclean re bonus
 
 -include ${DEP}
--include ${BDEP}

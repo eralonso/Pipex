@@ -6,14 +6,14 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 12:58:22 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/17 15:37:42 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/24 15:58:16 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include	"../lib/ft_printf/inc/ft_printf.h"
+# include	"ft_printf.h"
 # include	<sys/wait.h>
 # include	<sys/types.h>
 # include	<stdio.h>
@@ -31,7 +31,10 @@
 
 typedef struct s_pix {
 	int		fd[2];
-	pid_t	pid;
+	pid_t	pid1;
+	pid_t	pid2;
+	int		stat1;
+	int		stat2;
 	int		infl;
 	int		outfl;
 	int		ac;
@@ -58,5 +61,6 @@ void	ft_chd_proc(t_pix *pix, int n_cmd);
 void	ft_prt_proc(t_pix *pix, int n_cmd);
 int		ft_clean_pix(t_pix *pix, int err);
 int		ft_isscaped(char *str, int i);
+int		ft_close(int *fd);
 
 #endif

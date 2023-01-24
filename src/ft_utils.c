@@ -6,7 +6,7 @@
 /*   By: eralonso <eralonso@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/02 16:32:57 by eralonso          #+#    #+#             */
-/*   Updated: 2023/01/22 09:57:14 by eralonso         ###   ########.fr       */
+/*   Updated: 2023/01/24 16:00:46 by eralonso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,18 @@ int	ft_init_pipex(t_pix *pix, int ac, char **av, char **env)
 	pix->err = 0;
 	pix->infl = 0;
 	pix->outfl = 0;
+	pix->cmd = NULL;
+	pix->cmd_args = NULL;
 	pix->paths = ft_found_paths(pix);
 	if (!pix->paths)
 		return (0);
 	if (pipe(pix->fd) == -1)
 		return (*(int *)ft_free(pix->paths, 1));
+	pix->err = ft_open_file(pix, 0);
+	if (pix->err >= 0)
+		exit(ft_clean_pix(pix, ft_error(ERR_PERR, pix->err, NULL)));
+	if (pix->err == -1 && ft_close(&pix->infl) == -1)
+		return (ft_clean_pix(pix, ft_error(ERR_PERR, 1, NULL)));
 	return (1);
 }
 
@@ -76,17 +83,20 @@ char	**ft_found_paths(t_pix *pix)
 
 int	ft_clean_pix(t_pix *pix, int err)
 {
-	ft_free(pix->paths, 1);
-	ft_free(pix->cmd_args, 1);
-	ft_free(&pix->cmd, 2);
-	if (pix->fd[0])
-		close(pix->fd[0]);
-	if (pix->fd[1])
-		close(pix->fd[1]);
-	if (pix->infl)
-		close(pix->infl);
-	if (pix->outfl)
-		close(pix->outfl);
+	if (pix->paths)
+		ft_free(pix->paths, 1);
+	if (pix->cmd_args)
+		ft_free(pix->cmd_args, 1);
+	if (pix->cmd)
+		ft_free(&pix->cmd, 2);
+	if (ft_close(&pix->fd[0]) == -1 && err == -1)
+		return (1);
+	if (ft_close(&pix->fd[1]) == -1 && err == -1)
+		return (1);
+	if (ft_close(&pix->infl) == -1 && err == -1)
+		return (1);
+	if (ft_close(&pix->outfl) == -1 && err == -1)
+		return (1);
 	return (err);
 }
 
